@@ -13,12 +13,23 @@
 
 ## 🎯 Business Problem
 
-The core challenge is identifying which vendors are true profit drivers versus those that merely contribute to inventory bulk. We need a rigorous, quantitative method for **Vendor Selection for Profitability** and **Product Pricing Optimization**.
+## 🎯 Business Problems Solved & Key Analytical Questions
 
-This project moves the business beyond anecdotal purchasing to address critical questions:
-1.  Which vendors yield the highest **Profit Margin**?
-2.  Is the difference in profitability between our best and worst vendors **statistically significant**?
-3.  How does operational efficiency (like **Stock Turnover**) correlate with financial success?
+This project provides quantitative answers to critical business challenges, moving the organization from subjective decisions to data-backed strategy.
+
+### Sales & Profitability Analysis
+* **Which Vendors and brands demonstrate the Highest Sales performance?** (Identified through **Gross Sales** and **Profit Margin** aggregation).
+* **Is there a significant difference in profit margins between top-performing and low-performing vendors?** (Statistically validated using the **Two-Sample T-Test**).
+* **What is the 95% confidence intervals for profit margins of top-performing and low-performing vendors?** (Quantified the reliability of the profit estimates).
+
+### Purchasing & Cost Management
+* **Which vendors contribute the most to total purchase dollars?** (Quantified total expenditure by vendor).
+* **How much of total procurement is dependent on the top vendors?** (Calculated procurement concentration for risk assessment).
+* **Does purchasing in bulk reduce the unit price, and what is the optimal purchase volume for cost savings?** (Analyzed the relationship between volume and **Unit Price**, identifying optimal purchasing thresholds).
+
+### Inventory & Capital Efficiency
+* **Which vendor have low inventory turnover, indicating excess stock and slow-moving products?** (Calculated **Stock Turnover** to flag vendors contributing to inventory inefficiency).
+* **How much capital is locked in unsold inventory per vendor, and which vendors contribute the most to it?** (Quantified the financial cost of excess stock, providing clear targets for inventory reduction).
 
 ---
 
