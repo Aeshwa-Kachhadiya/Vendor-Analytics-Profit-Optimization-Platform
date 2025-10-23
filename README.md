@@ -11,8 +11,6 @@
 
 ---
 
-## 🎯 Business Problem
-
 ## 🎯 Business Problems Solved & Key Analytical Questions
 
 This project provides quantitative answers to critical business challenges, moving the organization from subjective decisions to data-backed strategy.
