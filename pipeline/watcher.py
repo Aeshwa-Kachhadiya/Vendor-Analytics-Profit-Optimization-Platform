@@ -10,11 +10,15 @@ from pathlib import Path
 from pipeline import run_pipeline
 
 # Setup logging
+BASE_DIR = Path(__file__).parent.parent
+log_dir = BASE_DIR / 'logs'
+log_dir.mkdir(exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/watcher.log', encoding='utf-8'),
+        logging.FileHandler(log_dir / 'watcher.log', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -50,7 +54,11 @@ class DataFolderHandler(FileSystemEventHandler):
 
 def start_watcher(folder_path='data', cooldown=30):
     """Start watching the data folder"""
-    path = Path(folder_path)
+    # Get absolute path relative to project root
+    if not Path(folder_path).is_absolute():
+        path = BASE_DIR / folder_path
+    else:
+        path = Path(folder_path)
     
     if not path.exists():
         path.mkdir(parents=True)
