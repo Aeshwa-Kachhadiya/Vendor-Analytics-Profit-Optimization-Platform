@@ -1,1 +1,10 @@
-streamlit
+   streamlit
+   pandas
+   numpy
+   openpyxl
+   sqlalchemy
+   plotly
+   scipy
+   scikit-learn
+   schedule
+   watchdog
