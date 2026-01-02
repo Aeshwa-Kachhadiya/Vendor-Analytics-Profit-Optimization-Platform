@@ -85,7 +85,7 @@ def load_excel_files():
 
 # ================== DATA TRANSFORMATION ==================
 def create_vendor_summary():
-    """Create vendor sales summary view"""
+    """Create vendor sales summary view - FIXED to match your column names"""
     try:
         query = """
         CREATE TABLE IF NOT EXISTS vendor_sales_summary AS
@@ -94,22 +94,22 @@ def create_vendor_summary():
             s.Description,
             SUM(s.SalesQuantity) AS TotalSalesQuantity,
             SUM(s.SalesDollars) AS TotalSalesDollars,
-            SUM(p.PurchaseQuantity) AS TotalPurchaseQuantity,
-            SUM(p.PurchaseDollars) AS TotalPurchaseDollars,
-            (SUM(s.SalesDollars) - SUM(p.PurchaseDollars)) AS GrossProfit,
+            SUM(p.Quantity) AS TotalPurchaseQuantity,
+            SUM(p.Dollars) AS TotalPurchaseDollars,
+            (SUM(s.SalesDollars) - SUM(p.Dollars)) AS GrossProfit,
             CASE 
                 WHEN SUM(s.SalesDollars) > 0 
-                THEN ((SUM(s.SalesDollars) - SUM(p.PurchaseDollars)) / SUM(s.SalesDollars)) * 100
+                THEN ((SUM(s.SalesDollars) - SUM(p.Dollars)) / SUM(s.SalesDollars)) * 100
                 ELSE 0 
             END AS ProfitMargin,
             CASE 
-                WHEN AVG(p.PurchaseQuantity) > 0 
-                THEN SUM(s.SalesQuantity) / AVG(p.PurchaseQuantity)
+                WHEN AVG(p.Quantity) > 0 
+                THEN SUM(s.SalesQuantity) / AVG(p.Quantity)
                 ELSE 0 
             END AS StockTurnover,
             CASE 
-                WHEN SUM(p.PurchaseDollars) > 0 
-                THEN SUM(s.SalesDollars) / SUM(p.PurchaseDollars)
+                WHEN SUM(p.Dollars) > 0 
+                THEN SUM(s.SalesDollars) / SUM(p.Dollars)
                 ELSE 0 
             END AS SalesToPurchaseRatio
         FROM sales s
@@ -118,7 +118,7 @@ def create_vendor_summary():
             AND s.Description = p.Description
         GROUP BY s.VendorName, s.Description
         HAVING SUM(s.SalesDollars) > 0 
-            AND SUM(p.PurchaseDollars) > 0
+            AND SUM(p.Dollars) > 0
         """
         
         with engine.connect() as conn:
@@ -145,27 +145,37 @@ def validate_data():
             # Check if required tables exist
             tables = ['sales', 'purchases']
             for table in tables:
-                result = conn.execute(text(f"SELECT COUNT(*) FROM {table}"))
-                count = result.scalar()
-                if count == 0:
-                    issues.append(f"⚠️ Table '{table}' is empty")
-                else:
-                    logging.info(f"✅ Table '{table}': {count} records")
+                try:
+                    result = conn.execute(text(f"SELECT COUNT(*) FROM {table}"))
+                    count = result.scalar()
+                    if count == 0:
+                        issues.append(f"⚠️ Table '{table}' is empty")
+                    else:
+                        logging.info(f"✅ Table '{table}': {count} records")
+                except Exception as e:
+                    issues.append(f"❌ Table '{table}' does not exist or error: {str(e)}")
             
-            # Check for negative values
-            result = conn.execute(text(
-                "SELECT COUNT(*) FROM sales WHERE SalesDollars < 0"
-            ))
-            neg_sales = result.scalar()
-            if neg_sales > 0:
-                issues.append(f"⚠️ Found {neg_sales} negative sales values")
+            # Check for negative values in sales
+            try:
+                result = conn.execute(text(
+                    "SELECT COUNT(*) FROM sales WHERE SalesDollars < 0"
+                ))
+                neg_sales = result.scalar()
+                if neg_sales > 0:
+                    issues.append(f"⚠️ Found {neg_sales} negative sales values")
+            except:
+                pass
             
-            result = conn.execute(text(
-                "SELECT COUNT(*) FROM purchases WHERE PurchaseDollars < 0"
-            ))
-            neg_purchases = result.scalar()
-            if neg_purchases > 0:
-                issues.append(f"⚠️ Found {neg_purchases} negative purchase values")
+            # Check for negative values in purchases
+            try:
+                result = conn.execute(text(
+                    "SELECT COUNT(*) FROM purchases WHERE Dollars < 0"
+                ))
+                neg_purchases = result.scalar()
+                if neg_purchases > 0:
+                    issues.append(f"⚠️ Found {neg_purchases} negative purchase values")
+            except:
+                pass
     
     except Exception as e:
         logging.error(f"❌ Validation failed: {str(e)}")
