@@ -14,11 +14,13 @@ from pathlib import Path
 import shutil
 
 # ================== LOGGING CONFIGURATION ==================
-log_dir = Path('logs')
+# Get project root (one level up from pipeline folder)
+BASE_DIR = Path(__file__).parent.parent
+log_dir = BASE_DIR / 'logs'
 log_dir.mkdir(exist_ok=True)
 
 logging.basicConfig(
-    filename='logs/pipeline.log',
+    filename=log_dir / 'pipeline.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     filemode='a',
@@ -32,7 +34,8 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
 # ================== DATABASE CONFIGURATION ==================
-engine = create_engine("sqlite:///inventory.db")
+DB_PATH = BASE_DIR / 'inventory.db'
+engine = create_engine(f"sqlite:///{DB_PATH}")
 
 # ================== DATA INGESTION ==================
 def ingest_raw_data(df, table_name, engine):
@@ -48,7 +51,7 @@ def ingest_raw_data(df, table_name, engine):
 def load_excel_files():
     """Load all Excel files from data folder"""
     start_time = time.time()
-    data_folder = Path('data')
+    data_folder = BASE_DIR / 'data'
     
     if not data_folder.exists():
         logging.error(f"❌ Data folder not found: {data_folder}")
@@ -179,8 +182,8 @@ def validate_data():
 # ================== ARCHIVE MANAGEMENT ==================
 def archive_processed_files():
     """Move processed files to archive folder"""
-    data_folder = Path('data')
-    archive_folder = Path('data/archive')
+    data_folder = BASE_DIR / 'data'
+    archive_folder = data_folder / 'archive'
     archive_folder.mkdir(exist_ok=True)
     
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
