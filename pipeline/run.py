@@ -1,6 +1,6 @@
 """
 Easy Startup Script for Vendor Analytics Pipeline
-Run this from the pipeline/ folder
+Now with Predictive Analytics!
 """
 
 import sys
@@ -16,7 +16,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 BANNER = """
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║        📊 VENDOR ANALYTICS AUTOMATION SYSTEM 📊          ║
+║    🤖 AI-POWERED VENDOR ANALYTICS SYSTEM 🤖             ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 """
@@ -24,16 +24,29 @@ BANNER = """
 MENU = """
 Select an option:
 
-1. 🚀 Run Pipeline Once (with archiving)
-2. ⏰ Start Scheduled Pipeline (every 24 hours)
-3. 👁️  Start File Watcher (auto-trigger on new files)
-4. 📊 Launch Dashboard
-5. 🔍 Validate Data Only
-6. 📈 Run Pipeline + Launch Dashboard
-7. 🔄 Full Auto Mode (Watcher + Dashboard)
-8. ❌ Exit
+DATA PIPELINE:
+1.  🚀 Run Data Pipeline (load & transform data)
+2.  ⏰ Start Scheduled Pipeline (every 24 hours)
+3.  👁️  Start File Watcher (auto-trigger on new files)
 
-Enter your choice (1-8): """
+PREDICTIVE ANALYTICS:
+4.  🤖 Run AI Analytics (ML predictions & insights)
+5.  🎯 Performance Scoring Only
+6.  📈 Demand Forecasting Only
+
+DASHBOARDS:
+7.  📊 Launch Basic Dashboard
+8.  🤖 Launch AI-Powered Dashboard
+
+COMBINED:
+9.  🔄 Full Pipeline + Analytics + Dashboard
+10. ⚡ Quick Start (Pipeline → Analytics → AI Dashboard)
+
+UTILITIES:
+11. 🔍 Validate Data Only
+12. ❌ Exit
+
+Enter your choice (1-12): """
 
 def run_command(cmd, wait=True, cwd=None):
     """Execute a command"""
@@ -64,16 +77,18 @@ def main():
     print(BANNER)
     check_requirements()
     
-    # Get the pipeline.py path
+    # Get script paths
     pipeline_script = SCRIPT_DIR / 'pipeline.py'
     watcher_script = SCRIPT_DIR / 'watcher.py'
+    analytics_script = SCRIPT_DIR / 'analytics.py'
     dashboard_script = PROJECT_ROOT / 'dashboard.py'
+    dashboard_ai_script = PROJECT_ROOT / 'dashboard_analytics.py'
     
     while True:
         choice = input(MENU).strip()
         
         if choice == '1':
-            print("\n🚀 Running pipeline with archiving...")
+            print("\n🚀 Running data pipeline...")
             run_command(f'python "{pipeline_script}" --archive', cwd=PROJECT_ROOT)
             print("\n✅ Pipeline completed!")
             time.sleep(2)
@@ -90,42 +105,67 @@ def main():
             run_command(f'python "{watcher_script}"', cwd=PROJECT_ROOT)
             
         elif choice == '4':
-            print("\n📊 Launching dashboard...")
+            print("\n🤖 Running AI analytics...")
+            run_command(f'python "{analytics_script}"', cwd=PROJECT_ROOT)
+            print("\n✅ Analytics completed!")
+            time.sleep(2)
+            
+        elif choice == '5':
+            print("\n🎯 Calculating performance scores...")
+            run_command(f'python "{analytics_script}" --scores-only', cwd=PROJECT_ROOT)
+            print("\n✅ Scoring completed!")
+            time.sleep(2)
+            
+        elif choice == '6':
+            print("\n📈 Running demand forecasting...")
+            run_command(f'python "{analytics_script}" --forecast-only', cwd=PROJECT_ROOT)
+            print("\n✅ Forecasting completed!")
+            time.sleep(2)
+            
+        elif choice == '7':
+            print("\n📊 Launching basic dashboard...")
             print("Dashboard will open in your browser")
             print("Press Ctrl+C to stop\n")
             run_command(f'streamlit run "{dashboard_script}"', cwd=PROJECT_ROOT)
             
-        elif choice == '5':
+        elif choice == '8':
+            print("\n🤖 Launching AI-powered dashboard...")
+            print("Dashboard will open in your browser")
+            print("Press Ctrl+C to stop\n")
+            run_command(f'streamlit run "{dashboard_ai_script}"', cwd=PROJECT_ROOT)
+            
+        elif choice == '9':
+            print("\n🔄 Running full pipeline...")
+            print("\nStep 1/3: Data Pipeline")
+            if run_command(f'python "{pipeline_script}" --archive', cwd=PROJECT_ROOT):
+                print("\nStep 2/3: AI Analytics")
+                if run_command(f'python "{analytics_script}"', cwd=PROJECT_ROOT):
+                    print("\nStep 3/3: Launching AI Dashboard")
+                    time.sleep(2)
+                    run_command(f'streamlit run "{dashboard_ai_script}"', cwd=PROJECT_ROOT)
+            
+        elif choice == '10':
+            print("\n⚡ Quick Start Mode...")
+            print("\n📥 Loading data...")
+            if run_command(f'python "{pipeline_script}" --archive', cwd=PROJECT_ROOT):
+                print("\n🤖 Running analytics...")
+                if run_command(f'python "{analytics_script}"', cwd=PROJECT_ROOT):
+                    print("\n🚀 Launching dashboard...\n")
+                    time.sleep(2)
+                    run_command(f'streamlit run "{dashboard_ai_script}"', cwd=PROJECT_ROOT)
+            
+        elif choice == '11':
             print("\n🔍 Validating data...")
             run_command(f'python "{pipeline_script}" --validate-only', cwd=PROJECT_ROOT)
             print("\n✅ Validation completed!")
             time.sleep(2)
             
-        elif choice == '6':
-            print("\n📈 Running pipeline and launching dashboard...")
-            if run_command(f'python "{pipeline_script}" --archive', cwd=PROJECT_ROOT):
-                print("\n✅ Pipeline completed! Launching dashboard...\n")
-                time.sleep(2)
-                run_command(f'streamlit run "{dashboard_script}"', cwd=PROJECT_ROOT)
-            
-        elif choice == '7':
-            print("\n🔄 Starting Full Auto Mode...")
-            print("File watcher and dashboard will run simultaneously")
-            print("Press Ctrl+C to stop\n")
-            
-            # Start watcher in background
-            run_command(f'python "{watcher_script}"', wait=False, cwd=PROJECT_ROOT)
-            time.sleep(2)
-            
-            # Start dashboard (blocking)
-            run_command(f'streamlit run "{dashboard_script}"', cwd=PROJECT_ROOT)
-            
-        elif choice == '8':
+        elif choice == '12':
             print("\n👋 Goodbye!")
             sys.exit(0)
             
         else:
-            print("\n❌ Invalid choice. Please enter 1-8.\n")
+            print("\n❌ Invalid choice. Please enter 1-12.\n")
             time.sleep(1)
 
 if __name__ == "__main__":
