@@ -1,10 +1,10 @@
-   streamlit
-   pandas
-   numpy
-   openpyxl
-   sqlalchemy
-   plotly
-   scipy
-   scikit-learn
-   schedule
-   watchdog
+streamlit
+pandas
+numpy
+openpyxl
+sqlalchemy
+plotly
+scipy
+scikit-learn
+schedule
+watchdog
