@@ -1,6 +1,4 @@
 # Database files - too big for GitHub
-inventory.db
-*.db
 
 # Python cache
 __pycache__/
