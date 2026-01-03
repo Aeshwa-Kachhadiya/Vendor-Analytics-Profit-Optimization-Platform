@@ -219,19 +219,14 @@ Contributions welcome! Please:
 
 ---
 
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
----
 
 ## 👤 Author
 
 **Aeshwa Kachhadiya**
 
-📧 Email: your.email@example.com  
-🔗 LinkedIn: [yourprofile](https://linkedin.com/in/yourprofile)  
-🐙 GitHub: [@aeshwakachhadiya](https://github.com/aeshwakachhadiya)
+📧 Email: aeswa0001@gmail.com  
+🔗 LinkedIn: [yourprofile](https://www.linkedin.com/in/aeshwakachhadiya/)
+🐙 GitHub: [@aeshwakachhadiya](https://github.com/Aeshwa-Kachhadiya)
 
 ---
 
