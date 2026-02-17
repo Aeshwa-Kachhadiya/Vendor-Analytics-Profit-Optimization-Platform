@@ -123,18 +123,8 @@ python run.py
 
 ---
 
-## 📊 Demo
 
-### Dashboard Preview
-![Dashboard](https://via.placeholder.com/800x400.png?text=AI+Dashboard+Preview)
 
-### Alert System
-![Alerts](https://via.placeholder.com/800x400.png?text=Real-Time+Alerts)
-
-### ML Insights
-![ML](https://via.placeholder.com/800x400.png?text=ML+Performance+Scoring)
-
-> 💡 **Tip:** Screenshots go here - replace placeholder URLs with actual images
 
 ---
 
