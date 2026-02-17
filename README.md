@@ -224,9 +224,12 @@ Contributions welcome! Please:
 
 **Aeshwa Kachhadiya**
 
-📧 Email: aeswa0001@gmail.com  
-🔗 LinkedIn: [yourprofile](https://www.linkedin.com/in/aeshwakachhadiya/)
-🐙 GitHub: [@aeshwakachhadiya](https://github.com/Aeshwa-Kachhadiya)
+## 📫 Connect with Me
+
+- 📧 Email: [aeshwakachhadiya129@gmail.com](mailto:aeshwakachhadiya129@gmail.com)  
+- 🔗 LinkedIn: [Aeshwa Kachhadiya](https://www.linkedin.com/in/aeshwakachhadiya/)  
+- 🐙 GitHub: [Aeshwa-Kachhadiya](https://github.com/Aeshwa-Kachhadiya)
+
 
 ---
 
